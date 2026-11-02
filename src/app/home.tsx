@@ -1,5 +1,5 @@
-import { Text, View } from 'react-native';
 import { router } from 'expo-router';
+import { Text, View } from 'react-native';
 import Button from '../components/Button';
 import Card from '../components/Card';
 import Screen from '../components/Screen';
@@ -19,7 +19,7 @@ export default function Home() {
       <View style={{ flex: 1, padding: 24, gap: 12 }}>
         <View>
           <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Hi, Braden</Text>
-          <Text style={{ color: '#555' }}>Friday, Oct 30</Text>
+          <Text style={{ color: '#555' }}>Monday, Nov 2</Text>
         </View>
 
         <Card color={colors.green}>

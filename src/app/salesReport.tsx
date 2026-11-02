@@ -19,7 +19,7 @@ export default function SalesReport() {
       <Header title="Sales report" />
       <View style={{ flex: 1, padding: 24, gap: 12 }}>
         <Text style={{ color: '#555', fontSize: 12 }}>
-          Shift: Oct 30, 4:00 PM - 1:00 AM
+          Shift: Nov 2, 4:00 PM - 12:00 AM
         </Text>
 
         <TouchableOpacity onPress={() => router.push('/confirm-data')}>
