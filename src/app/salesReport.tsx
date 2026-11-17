@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Screen from '../components/Screen';
 import { Ionicons } from '@expo/vector-icons';
 
+
 // TODO:
 // - Open the real camera to take a photo of the sales report
 // - "Upload from photos" should open the photo library
