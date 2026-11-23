@@ -41,11 +41,3 @@ example
 # generated native folders
 /ios
 /android
-
-# Secrets: never commit
-.env
-.env.*
-!.env.example
-
-# Dependencies
-node_modules/
