@@ -9,6 +9,21 @@ CREATE TABLE IF NOT EXISTS users (
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+-- shifts has to be created before sales_reports, because sales_reports points
+-- at it with REFERENCES shifts(id). Postgres checks that the table being
+-- pointed at already exists, so with the other order this file stopped on an
+-- error and none of the tables after it were made.
+CREATE TABLE IF NOT EXISTS shifts (
+  id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id    UUID NOT NULL REFERENCES users(id),
+  started_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  ended_at   TIMESTAMPTZ
+);
+
+-- Only one running shift (ended_at empty) per user, enforced by the database itself
+CREATE UNIQUE INDEX IF NOT EXISTS idx_shifts_one_open
+  ON shifts(user_id) WHERE ended_at IS NULL;
+
 CREATE TABLE IF NOT EXISTS sales_reports (
   id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   shift_id    UUID NOT NULL UNIQUE REFERENCES shifts(id),
@@ -22,14 +37,3 @@ CREATE TABLE IF NOT EXISTS sales_reports (
 );
 
 CREATE INDEX IF NOT EXISTS idx_sales_date ON sales_reports(report_date);
-
-CREATE TABLE IF NOT EXISTS shifts (
-  id         UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id    UUID NOT NULL REFERENCES users(id),
-  started_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  ended_at   TIMESTAMPTZ
-);
-
--- Only one running shift (ended_at empty) per user, enforced by the database itself
-CREATE UNIQUE INDEX IF NOT EXISTS idx_shifts_one_open
-  ON shifts(user_id) WHERE ended_at IS NULL;
