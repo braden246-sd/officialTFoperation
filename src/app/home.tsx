@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { Text, View } from 'react-native';
 import Button from '../components/Button';
 import Card from '../components/Card';
@@ -33,6 +34,23 @@ const shiftStartTimeString = shiftStartTime.toLocaleTimeString('en-US', {
   weekday: 'short',
 });
 export default function Home() {
+
+  const [running, setRunning] = useState(true);
+  const [endedAt, setEndedAt] = useState('');
+
+  function toggleShift() {
+    if (running) {
+      setEndedAt(new Date().toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+      }));
+      setRunning(false); //running remembers whether the shift is on ended at stores the time you tapped end shift the function flips running and saves the time when you end the shift
+    } 
+    else {
+      setRunning(true);
+    }
+  }
   return (
     <Screen>
       <View style={{ flex: 1, padding: 24, gap: 12 }}>
@@ -41,12 +59,20 @@ export default function Home() {
           <Text style={{ color: '#555' }}>{dateString}, {timeString}</Text>
         </View>
 
-        <Card color={colors.green}>
-          <Text style={{ fontWeight: 'bold', color: '#2E7D32' }}>Shift running</Text>
-          <Text style={{ color: '#2E7D32', fontSize: 12 }}>Started on {shiftStartTimeString}</Text>
+        <Card color={running ? colors.green : colors.field}>
+          <Text style={{ fontWeight: 'bold', color: running ? '#2E7D32' : '#555' }}>
+            {running ? 'Shift running' : 'Shift ended'}
+          </Text>
+          <Text style={{ color: running ? '#2E7D32' : '#555', fontSize: 12 }}>
+            {running ? `Started on ${shiftStartTimeString}` : `Ended at ${endedAt}`}
+          </Text>
         </Card>
 
-        <Button title="End shift" onPress = {() => router.push('/')}  outline />
+        <Button
+          title={running ? 'End shift' : 'Start shift'}
+          outline
+          onPress={toggleShift}
+        />
 
         <Text style={{ color: '#555', fontSize: 12, marginTop: 12 }}>
           End-of-night tasks
