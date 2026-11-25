@@ -5,6 +5,7 @@ import Card from '../components/Card';
 import Header from '../components/Header';
 import Screen from '../components/Screen';
 import { Ionicons } from '@expo/vector-icons';
+import {shiftLabel} from '../constants/shift';
 
 
 // TODO:
@@ -20,7 +21,7 @@ export default function SalesReport() {
       <Header title="Sales report" />
       <View style={{ flex: 1, padding: 24, gap: 12 }}>
         <Text style={{ color: '#555', fontSize: 12 }}>
-          Shift: Nov 2, 4:00 PM - 12:00 AM
+          {shiftLabel()}
         </Text>
 
         <TouchableOpacity onPress={() => router.push('/confirm-data')}>

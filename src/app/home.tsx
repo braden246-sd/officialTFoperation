@@ -5,14 +5,13 @@ import Button from '../components/Button';
 import Card from '../components/Card';
 import Screen from '../components/Screen';
 import { colors } from '../constants/colors';
+import {shift} from '../constants/shift';
 
 // TODO:
 // - Use the real user name and today's date
-// - "End shift" should actually end the shift and update the green card
+// - Shift start and end times shared with the other screens
+// - Real log out button
 
-// - Build the "Report incident" screen
-// - Build the "Report appliance issue" screen
-// - Disable "Submit sales report" until the shift has ended
 const dateToday = new Date();
 const dateString = dateToday.toLocaleDateString('en-US', {
   weekday: 'long',
@@ -37,9 +36,11 @@ export default function Home() {
 
   const [running, setRunning] = useState(true);
   const [endedAt, setEndedAt] = useState('');
+  const [startedAt, setStartedAt] = useState(shiftStartTimeString);
 
   function toggleShift() {
     if (running) {
+      shift.end = new Date();
       setEndedAt(new Date().toLocaleTimeString('en-US', {
         hour: 'numeric',
         minute: 'numeric',
@@ -48,6 +49,16 @@ export default function Home() {
       setRunning(false); //running remembers whether the shift is on ended at stores the time you tapped end shift the function flips running and saves the time when you end the shift
     } 
     else {
+      shift.start = new Date();
+      shift.end = null;
+      setStartedAt(new Date().toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+        day: 'numeric',
+        month: 'short',
+        weekday: 'short',
+      }));
       setRunning(true);
     }
   }
@@ -64,7 +75,7 @@ export default function Home() {
             {running ? 'Shift running' : 'Shift ended'}
           </Text>
           <Text style={{ color: running ? '#2E7D32' : '#555', fontSize: 12 }}>
-            {running ? `Started on ${shiftStartTimeString}` : `Ended at ${endedAt}`}
+          {running ? `Started on ${startedAt}` : `Ended at ${endedAt}`}
           </Text>
         </Card>
 
