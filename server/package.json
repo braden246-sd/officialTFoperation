@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "db:init": "tsx src/initDb.ts",
-    "db:add": "tsx src/addTables.ts",
     "db:seed": "tsx src/seed.ts",
     "typecheck": "tsc --noEmit",
     "check:business-date": "tsx src/lib/business-date.check.ts"
